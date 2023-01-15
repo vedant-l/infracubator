@@ -1,0 +1,11 @@
+FROM vedant/my-alpine
+
+WORKDIR /npm
+
+COPY package.json .
+
+RUN npm install
+
+COPY index.js .
+
+CMD [ "npm",  "start" ]

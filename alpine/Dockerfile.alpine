@@ -1,0 +1,18 @@
+FROM alpine
+
+ENV NAME Vedant
+ENV TECHNOLOGIES "Docker, K8S"
+
+# Copying script to log name/capabilities
+COPY ./alpineCapabilities.sh .
+
+# Installing node and npm
+RUN apk add --update npm
+# Installing java
+RUN apk add openjdk11
+ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk
+# Installing maven
+RUN apk add maven
+
+# Run script to log name/capabilities
+CMD [ "/bin/sh", "-c", "./alpineCapabilities.sh" ]

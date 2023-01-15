@@ -1,0 +1,13 @@
+FROM vedant/my-alpine
+
+WORKDIR /maven
+
+COPY calculator/pom.xml .
+
+RUN mvn dependency:go-offline -B
+
+COPY calculator/src ./src
+
+RUN mvn package
+
+CMD [ "java", "-cp", "target/calculator-1.0-SNAPSHOT.jar", "org.example.App" ]
