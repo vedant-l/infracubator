@@ -1,0 +1,10 @@
+ARG AUSER
+
+FROM alpine AS base
+ARG AUSER
+
+FROM base
+ENV AUSER $AUSER
+CMD echo HELLO ${AUSER}
+
+

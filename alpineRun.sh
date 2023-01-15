@@ -6,11 +6,13 @@
 # Description: Description
 # Usage: How to use
 
-docker build -f alpine/Dockerfile.alpine -t vedant/my-alpine alpine/. || echo "Build Failed: Alpine"
-
+# docker build -f alpine/Dockerfile.alpine -t vedant/my-alpine alpine/. || echo "Build Failed: Alpine"
 # docker build -f maven/Dockerfile.maven -t vedant/maven maven/. || echo "Build Failed: MVN"
-docker build -f npm/Dockerfile.npm -t vedant/npm npm/. || echo "Build Failed: NPM"
+# docker build -f npm/Dockerfile.npm -t vedant/npm npm/. || echo "Build Failed: NPM"
 
 # docker run -it vedant/my-alpine
 # docker run -it vedant/maven
-docker run -it vedant/npm
+# docker run -it vedant/npm
+
+docker build --build-arg AUSER=Vedant -f multistage/Dockerfile.multistage -t vedant/multistage multistage/. || echo "Build Failed: Multistage"
+docker run -it vedant/multistage
