@@ -30,16 +30,6 @@ jobs:
           tags: |
             type=semver,pattern={{version}}
       -
-        name: Build and push
-        uses: docker/build-push-action@v3
-        with:
-          context: maven/.
-          push: false
-          tags: ${{ steps.maven.outputs.tags }}
-          file: maven/Dockerfile.maven
-          labels: ${{ steps.maven.outputs.labels }}
-          
-      -
         name: Docker NPM meta
         id: npm
         uses: docker/metadata-action@v4
@@ -49,7 +39,35 @@ jobs:
           tags: |
             type=semver,pattern={{version}}
       -
-        name: Build and push
+        name: Docker alpine meta
+        id: alpine
+        uses: docker/metadata-action@v4
+        with:
+          images: |
+            vedant/my-alpine
+          tags: |
+            type=semver,pattern={{version}}
+      -
+        name: Build Alpine
+        uses: docker/build-push-action@v3
+        with:
+          context: alpine/.
+          push: false
+          tags: ${{ steps.maven.outputs.tags }}
+          file: alpine/Dockerfile.alpine
+          labels: ${{ steps.maven.outputs.labels }}
+      -
+        name: Build Maven
+        uses: docker/build-push-action@v3
+        with:
+          context: maven/.
+          push: false
+          tags: ${{ steps.maven.outputs.tags }}
+          file: maven/Dockerfile.maven
+          labels: ${{ steps.maven.outputs.labels }}
+          
+      -
+        name: Build NPM
         uses: docker/build-push-action@v3
         with:
           context: npm/.
