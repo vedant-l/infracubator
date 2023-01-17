@@ -36,7 +36,9 @@ jobs:
           context: maven/.
           push: false
           tags: ${{ steps.maven.outputs.tags }}
+          file: maven/Dockerfile.maven
           labels: ${{ steps.maven.outputs.labels }}
+          
       -
         name: Docker NPM meta
         id: npm
@@ -54,3 +56,4 @@ jobs:
           push: false
           tags: ${{ steps.npm.outputs.tags }}
           labels: ${{ steps.npm.outputs.labels }}
+          file: npm/Dockerfile.npm
