@@ -28,7 +28,7 @@ jobs:
           push: false
           file: alpine/Dockerfile.alpine
           outputs: type=docker,dest=/tmp/base.tar
-          tags: my-base-image:latest
+          tags: vedant/my-alpine:latest
       -
         name: Upload artifact
         uses: actions/upload-artifact@v3
@@ -70,7 +70,6 @@ jobs:
         with:
           context: maven/.
           push: false
-          build-contexts: vedant/my-alpine=docker-image://my-base-image:latest
           tags: ${{ steps.maven.outputs.tags }}
           file: maven/Dockerfile.maven
           labels: ${{ steps.maven.outputs.labels }}
@@ -107,7 +106,6 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: npm/.
-          build-contexts: vedant/my-alpine=docker-image://my-base-image:latest
           push: false
           tags: ${{ steps.npm.outputs.tags }}
           labels: ${{ steps.npm.outputs.labels }}
