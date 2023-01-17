@@ -21,22 +21,14 @@ jobs:
         name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
       -
-        name: Docker alpine meta
-        id: alpine
-        uses: docker/metadata-action@v4
-        with:
-          images: vedant/my-alpine
-          tags: type=sha
-      -
         name: Build Alpine
         uses: docker/build-push-action@v3
         with:
           context: alpine/.
           push: false
-          tags: ${{ steps.alpine.outputs.tags }}
           file: alpine/Dockerfile.alpine
-          labels: ${{ steps.alpine.outputs.labels }}
           outputs: type=docker,dest=/tmp/base.tar
+          tags: my-base-image:latest
       -
         name: Upload artifact
         uses: actions/upload-artifact@v3
@@ -78,7 +70,7 @@ jobs:
         with:
           context: maven/.
           push: false
-          build-contexts: vedant/my-alpine=docker-image://vedant/my-alpine
+          build-contexts: vedant/my-alpine=docker-image://my-base-image:latest
           tags: ${{ steps.maven.outputs.tags }}
           file: maven/Dockerfile.maven
           labels: ${{ steps.maven.outputs.labels }}
@@ -115,7 +107,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: npm/.
-          build-contexts: vedant/my-alpine=docker-image://vedant/my-alpine
+          build-contexts: vedant/my-alpine=docker-image://my-base-image:latest
           push: false
           tags: ${{ steps.npm.outputs.tags }}
           labels: ${{ steps.npm.outputs.labels }}
