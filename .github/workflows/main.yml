@@ -66,13 +66,8 @@ jobs:
           docker image ls -a
       -
         name: Build Maven
-        uses: docker/build-push-action@v3
-        with:
-          context: maven/.
-          push: false
-          tags: ${{ steps.maven.outputs.tags }}
-          file: maven/Dockerfile.maven
-          labels: ${{ steps.maven.outputs.labels }}
+        run: |
+          docker build -f maven/Dockerfile.maven -t vedant/maven maven/.
   npm:
     runs-on: ubuntu-latest
     needs: base
@@ -104,11 +99,6 @@ jobs:
 
       -
         name: Build NPM
-        uses: docker/build-push-action@v3
-        with:
-          context: npm/.
-          push: false
-          tags: ${{ steps.npm.outputs.tags }}
-          labels: ${{ steps.npm.outputs.labels }}
-          file: npm/Dockerfile.npm
+        run: |
+          docker build -f npm/Dockerfile.npm -t vedant/npm npm/.
 
