@@ -26,7 +26,7 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: vedant/my-alpine
-          tags: type=edge
+          tags: type=sha
       -
         name: Build Alpine
         uses: docker/build-push-action@v3
@@ -70,16 +70,15 @@ jobs:
         id: maven
         uses: docker/metadata-action@v4
         with:
-          images: |
-            vedant/maven
-          tags: |
-            type=edge
+          images: vedant/maven
+          tags: type=sha
       -
         name: Build Maven
         uses: docker/build-push-action@v3
         with:
           context: maven/.
           push: false
+          build-contexts: vedant/my-alpine=docker-image://vedant/my-alpine
           tags: ${{ steps.maven.outputs.tags }}
           file: maven/Dockerfile.maven
           labels: ${{ steps.maven.outputs.labels }}
@@ -109,15 +108,14 @@ jobs:
         id: npm
         uses: docker/metadata-action@v4
         with:
-          images: |
-            vedant/npm
-          tags: |
-            type=edge
+          images: vedant/npm
+          tags: type=sha
       -
         name: Build NPM
         uses: docker/build-push-action@v3
         with:
           context: npm/.
+          build-contexts: vedant/my-alpine=docker-image://vedant/my-alpine
           push: false
           tags: ${{ steps.npm.outputs.tags }}
           labels: ${{ steps.npm.outputs.labels }}
