@@ -29,6 +29,11 @@ jobs:
           file: alpine/Dockerfile.alpine
           outputs: type=docker,dest=/tmp/base.tar
           tags: vedant/my-alpine:latest
+      - name: Scan Alpine
+        uses: aquasecurity/trivy-action@master
+        with:
+          input: /tmp/base.tar
+          severity: 'CRITICAL,HIGH'
       -
         name: Upload artifact
         uses: actions/upload-artifact@v3
@@ -68,6 +73,12 @@ jobs:
         name: Build Maven
         run: |
           docker build -f maven/Dockerfile.maven -t vedant/maven maven/.
+          docker save -o /tmp/maven-image.tar vedant/maven
+      - name: Scan Maven
+        uses: aquasecurity/trivy-action@master
+        with:
+          input: /tmp/maven-image.tar
+          severity: 'CRITICAL,HIGH'
   npm:
     runs-on: ubuntu-latest
     needs: base
@@ -101,4 +112,10 @@ jobs:
         name: Build NPM
         run: |
           docker build -f npm/Dockerfile.npm -t vedant/npm npm/.
+          docker save -o /tmp/npm-image.tar vedant/npm
+      - name: Scan Maven
+        uses: aquasecurity/trivy-action@master
+        with:
+          input: /tmp/npm-image.tar
+          severity: 'CRITICAL,HIGH'
 
