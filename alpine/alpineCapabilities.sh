@@ -5,7 +5,7 @@
 # Last Modified: 11-01-2023
 # Description: Description
 # Usage: How to use
-
+env >/root/output/envfile
 echo "Name: $NAME"
 echo "Technologies: $TECHNOLOGIES"
 echo "Capabilities: $(uname -a)"
